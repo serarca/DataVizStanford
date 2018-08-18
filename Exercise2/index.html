@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<head>
+	<title>
+		My Visual Portfolio
+	</title>
+	<style type="text/css">
+		h1 {
+			color:#79CCCD;
+		}
+		.important_text {
+			font-weight: bold;
+		}
+	</style>
+	<script type="text/javascript">
+	  	var on = false;
+		function turnOn(){
+			document.getElementById('bulb').src = "pic_bulbon.gif"
+			on = true;
+		}
+		function turnOff(){
+			document.getElementById('bulb').src = "pic_bulboff.gif"
+			on = false;
+		}
+		function change(){
+			if (on){
+				turnOff();
+			} else {
+				turnOn();
+			}
+		}
+	</script>
+</head>		
+
+
+<body>
+	<h1>My <span class="important_text">Visual</span> Portfolio</h1>
+	<p>Welcome to my portfolio, I'm a <span class="important_text">PhD student</span> at <a href="https://icme.stanford.edu/"><img src="https://sites.stanford.edu/jse-icme/sites/default/files/icme_full_logo_no_background_high_res.gif" width="60" height="20"/></a>, where I study <span class="important_text">transportation networks</span>.</p>
+
+	<h1> Turning on the Lights </h1>
+	<img src="pic_bulboff.gif" onmouseover="turnOn()" onmouseout="turnOff()" id="bulb">
+	<button onclick="change()"> Switch </button>
+
+</body>

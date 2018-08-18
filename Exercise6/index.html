@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+
+		var w = 800;
+		var h = 200;
+		svg = d3.select('body')
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+
+		var bardata = [];                         
+		for (var i = 0; i < 25; i++) {           
+			var newNumber = Math.floor(Math.random()*100);   
+			bardata.push(newNumber);              
+		}
+
+
+		var padding = 1;
+		var yScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range([h, 0]);
+
+		var colorScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range(["black","blue"]);
+
+		var xScale = d3.scaleBand()
+						.domain(d3.range(bardata.length))
+						.range([0,w])
+						.padding(0.05);
+
+		
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return xScale(i);
+			})
+			.attr("y", function(d){return yScale(d);})
+			.attr("width", xScale.bandwidth())
+			.attr("height", function(d){return h - yScale(d);})
+			.attr("fill", function(d) {
+				return colorScale(d);
+			})
+			.on("click", function(){
+				alert("Hey don't click that")
+			})
+			.on("mouseover",function(){
+				d3.select(this)
+					//.transition()
+					//.duration(250)
+					.attr("fill","orange");
+			})
+			.on("mouseout", function(d){
+				d3.select(this)
+					.transition()
+					.duration(250)
+					.attr("fill", function(d) {
+					return colorScale(d);
+				});
+
+			});
+
+		svg.selectAll("rect")
+			.on("click", function(){
+				var bardata = [];                         
+				for (var i = 0; i < 25; i++) {           
+					var newNumber = Math.floor(Math.random()*100);   
+					bardata.push(newNumber);              
+				}
+
+				svg.selectAll("rect")
+				.data(bardata)
+				.transition()
+				.duration(500)
+				.delay(function(d,i){
+					return i*20;
+				})				
+				.attr("x", function(d,i){
+					return xScale(i);
+				})
+				.attr("y", function(d){return yScale(d);})
+				.attr("width", xScale.bandwidth())
+				.attr("height", function(d){return h - yScale(d);})
+				.attr("fill", function(d) {
+					return colorScale(d);
+				});
+
+			});
+
+		d3.select("body").append("br");
+
+		var add = d3.select("body")
+					.append("button")
+					.text("Add Data")
+					.style("float","left");
+
+		d3.select("body").append("br");
+
+		var remove = d3.select("body")
+					.append("button")
+					.text("Remove Data")
+					.style("float","left");
+
+		add.on("click", function(){
+			bardata.push(Math.floor(Math.random() * 100));
+
+			svg.selectAll("rect")
+				.data(bardata)
+				.enter()
+				.append("rect")
+				.attr("x", w)
+				.attr("y", function(d){return yScale(d);})
+				.attr("width", xScale.bandwidth())
+				.attr("height", function(d){return h - yScale(d);})
+				.attr("fill", function(d) {
+					return colorScale(d);
+				});
+
+			xScale.domain(d3.range(bardata.length));
+
+			svg.selectAll("rect")
+				.transition()
+				.attr("x", function(d,i){
+					return xScale(i);
+				})
+				.attr("width", xScale.bandwidth());
+
+		});
+
+		remove.on("click", function(){
+			bardata.shift();
+
+			svg.selectAll("rect")
+				.data(bardata)
+				.exit()
+				.remove()
+
+			xScale.domain(d3.range(bardata.length));
+
+			svg.selectAll("rect")
+				.transition()
+				.attr("x", function(d,i){
+					return xScale(i);
+				})
+				.attr("width", xScale.bandwidth());
+
+		});
+	</script>
+</body>

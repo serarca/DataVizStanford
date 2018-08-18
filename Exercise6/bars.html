@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+
+		var w = 800;
+		var h = 200;
+		svg = d3.select('body')
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+
+		var bardata = [];                         
+		for (var i = 0; i < 25; i++) {           
+			var newNumber = Math.floor(Math.random()*100);   
+			bardata.push(newNumber);              
+		}
+
+
+		var padding = 1;
+		var yScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range([h, 0]);
+
+		var rgbScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range([0, 256]);
+
+		var xScale = d3.scaleBand()
+						.domain(d3.range(bardata.length))
+						.range([0,w])
+						.padding(0.05);
+
+		
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return xScale(i);
+			})
+			.attr("y", function(d){return yScale(d);})
+			.attr("width", xScale.bandwidth())
+			.attr("height", function(d){return h - yScale(d);})
+			.attr("fill", function(d) {
+				return "rgb(0,0, "+Math.floor(rgbScale(d))+")";
+			});
+
+
+	</script>
+</body>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<head>
+	<title>
+		My Visual Portfolio
+	</title>
+	<style type="text/css">
+		h1 {
+			color:#79CCCD;
+		}
+		.important-text {
+			font-weight: bold;
+		}
+		.red-circle {
+        	fill:#F16664;
+		}		
+		#blue-border {
+			stroke:#007D8C;
+        	stroke-width:4;
+		}
+	</style>
+	<script type="text/javascript">
+	  	var on = false;
+		function turnOn(){
+			document.getElementById('bulb').src = "pic_bulbon.gif"
+			on = true;
+		}
+		function turnOff(){
+			document.getElementById('bulb').src = "pic_bulboff.gif"
+			on = false;
+		}
+		function change(){
+			if (on){
+				turnOff();
+			} else {
+				turnOn();
+			}
+		}
+	</script>
+</head>		
+
+
+<body>
+	<h1>My <span class="important-text">Visual</span> Portfolio</h1>
+	<p>Welcome to my portfolio, I'm a <span class="important-text">PhD student</span> at <a href="https://icme.stanford.edu/"><img src="https://sites.stanford.edu/jse-icme/sites/default/files/icme_full_logo_no_background_high_res.gif" width="60" height="20"/></a>, where I study <span class="important_text">transportation networks</span>.</p>
+
+	<h1> Turning on the Lights </h1>
+	<img src="pic_bulboff.gif" onmouseover="turnOn()" onmouseout="turnOff()" id="bulb">
+	<button onclick="change()"> Switch </button>
+
+	<h1> Graphical Elements in SVG</h1>
+	  <svg width="400" height="100">
+	    <circle cx="50" cy="50" r="30" class="red-circle" id="blue-border" opacity="0.8"></circle>
+		<circle cx="150" cy="50" r="40" class="red-circle" opacity="0.8"></circle>
+	    <circle cx="250" cy="50" r="45" class="red-circle" opacity="0.8"></circle>
+	  </svg>
+
+
+</body>

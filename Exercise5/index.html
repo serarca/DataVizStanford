@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+
+		var w = 800;
+		var h = 200;
+		svg = d3.select("body")
+				.append("svg")
+				.attr("width", w)
+				.attr("height", h);
+
+		var bardata = [];
+		for (var i = 0; i < 25; i++) {           
+			var newNumber = Math.floor(Math.random()*100);   
+			bardata.push(newNumber);              
+		}
+
+		/*
+		svg.append("rect")
+			.attr("x", 0)
+			.attr("y",0)
+			.attr("height", 100)
+			.attr("width", 20);*/
+
+		/*svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return i*w/bardata.length;
+			})
+			.attr("y", 0)
+			.attr("width", 20)
+			.attr("height", 100);*/
+
+		/*var padding = 1;
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return i*w/bardata.length;
+			})
+			.attr("y", 0)
+			.attr("width", w/bardata.length - padding)
+			.attr("height", function(d){return d * 2;});*/
+
+		/*var padding = 1;
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return i*w/bardata.length;
+			})
+			.attr("y", function(d){return h-d*2;})
+			.attr("width", w/bardata.length - padding)
+			.attr("height", function(d){return d*2;});*/
+
+		/*var padding = 1;
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return i*w/bardata.length;
+			})
+			.attr("y", function(d){return h-d*2;})
+			.attr("width", w/bardata.length - padding)
+			.attr("height", function(d){return d*2;})
+			.attr("fill", function(d) {
+				return "rgb(0,0, "+(d*3)+")";
+			});*/
+
+		var padding = 1;
+		var yScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range([h, 0]);
+
+		var colorScale = d3.scaleLinear()
+					.domain([0, 100])
+					.range(["black", "blue"]);
+
+		var xScale = d3.scaleBand()
+						.domain(d3.range(bardata.length))
+						.range([0,w])
+						.padding(0.05);
+
+
+		svg.selectAll("rect")
+			.data(bardata)
+			.enter()
+			.append("rect")
+			.attr("x", function(d,i){
+				return xScale(i);
+			})
+			.attr("y", function(d){return yScale(d);})
+			.attr("width", xScale.bandwidth())
+			.attr("height", function(d){return h - yScale(d);})
+			.attr("fill", function(d) {
+				return colorScale(d);
+			});
+
+		svg.selectAll("text")
+			.data(bardata)
+			.enter()
+			.append("text")
+			.text(function(d){return d;})
+			.attr("x", function(d,i){
+				return xScale(i) + xScale.bandwidth() / 2;
+			})
+			.attr("y", function(d){return yScale(d) + 15;})
+			.attr("font-size", "14px")
+			.attr("fill", "white")
+			.attr("text-anchor", "middle");
+
+
+	</script>
+</body>
